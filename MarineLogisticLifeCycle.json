@@ -1,0 +1,294 @@
+{
+  "ApplicationName": "MarineLogisticLifeCycle",
+  "DisplayName": "Marine Logistic Life Cycle",
+  "Description": "An Application To Request and Manage Bunker Sale",
+  "ApplicationRoles": [
+    {
+      "Name": "Marketer",
+      "Description": "A person Requesting the Bunker."
+    },
+    {
+      "Name": "OperationScheduler",
+      "Description": "A person Nominating the Bardge Company"
+    },
+    {
+      "Name": "BargeCompany",
+      "Description": "The Bardge Company Nominated To Provide Vessel Fuel"
+    },
+    {
+      "Name": "Accounting",
+      "Description": "A person who manages the payment for the Bunker Fuel"
+    }
+  ],
+  "Workflows": [
+    {
+      "Name": "MarineLogisticLifeCycle",
+      "DisplayName": "Initiate Bunker Deal",
+      "Description": "A simple workflow to Manage Bunker Sale.",
+      "Initiators": [ "Marketer" ],
+      "StartState": "Initiate",
+      "Properties": [
+        {
+          "Name": "State",
+          "DisplayName": "State",
+          "Description": "Holds the state of the contract.",
+          "Type": {
+            "Name": "state"
+          }
+        },
+		{
+          "Name": "OperationScheduler",
+          "DisplayName": "Scheduler",
+          "Description": "Name Of The Operation Scheduler.",
+          "Type": {
+            "Name": "OperationScheduler"
+          }
+        },
+        {
+          "Name": "BargeCompany",
+          "DisplayName": "Bardge Name",
+          "Description": "Name Of The Nominated Bardge Company.",
+          "Type": {
+            "Name": "BargeCompany"
+          }
+        },
+        {
+          "Name": "BardgeMethod",
+          "DisplayName": "Bardge Method",
+          "Description": "How the Fuel was delivered",
+          "Type": {
+            "Name": "string"
+          }
+        },
+        {
+          "Name": "Vessel",
+          "DisplayName": "Vessel",
+          "Description": "Vessel which was Fueled.",
+          "Type": {
+            "Name": "string"
+          }
+        },
+        {
+          "Name": "FuelType",
+          "DisplayName": "Fuel Type",
+          "Description": "Fuel Type Loaded.",
+          "Type": {
+            "Name": "string"
+          }
+        },
+        {
+          "Name": "Price",
+          "DisplayName": "Price",
+          "Description": "Price Per Unit",
+          "Type": {
+            "Name": "money"
+          }
+        },
+        {
+          "Name": "Quantity",
+          "DisplayName": "Quantity",
+          "Description": "Quantity Of Fuel Type Loaded.",
+          "Type": {
+            "Name": "int"
+          }
+        },
+        {
+          "Name": "TotalAmount",
+          "DisplayName": "Total Amount",
+          "Description": "Total Amount.",
+          "Type": {
+            "Name": "money"
+          }
+        }
+      ],
+      "Constructor": {
+        "Parameters": [
+          {
+            "Name": "Initiation",
+            "Description": "...",
+            "DisplayName": "Initiate Bunker",
+            "Type": {
+              "Name": "string"
+            }
+          }
+        ]
+      },
+	  
+  
+      "Functions": [
+        {
+          "Name": "InitiateDeal",
+          "DisplayName": "Initiate Deal",
+          "Description": "...",
+          "Parameters": [
+            {
+              "Name": "Initiation",
+              "Description": "...",
+              "DisplayName": "Initiation Request",
+              "Type": {
+                "Name": "string"
+              }
+            }
+          ]
+        },
+        {
+          "Name": "NominateBardgeCompany",
+          "DisplayName": "Nominate Bardge Company",
+          "Description": "...",
+          "Parameters": [
+            {
+              "Name": "SelectBardgeName",
+              "Description": "...",
+              "DisplayName": "Barge Name",
+              "Type": {
+                "Name": "string"
+              }
+            }
+          ]
+        },
+        {
+          "Name": "LoadCompleted",
+          "DisplayName": "Load Barge",
+          "Description": "...",
+          "Parameters": [
+            {
+              "Name": "_BardgeMethod",
+              "Description": "...",
+              "DisplayName": "Barge Method",
+              "Type": {
+                "Name": "string"
+              }
+            },
+			{
+              "Name": "_Vessel",
+              "Description": "...",
+              "DisplayName": "Vessel Name",
+              "Type": {
+                "Name": "string"
+              }
+            },
+			{
+              "Name": "_FuelType",
+              "Description": "...",
+              "DisplayName": "Fuel Type",
+              "Type": {
+                "Name": "string"
+              }
+            },
+			{
+              "Name": "_Price",
+              "Description": "...",
+              "DisplayName": "Price",
+              "Type": {
+                "Name": "int"
+              }
+            },
+			{
+              "Name": "_Quantity",
+              "Description": "...",
+              "DisplayName": "Quantity",
+              "Type": {
+                "Name": "int"
+              }
+            },
+			{
+              "Name": "_TotalAmount",
+              "Description": "...",
+              "DisplayName": "Total Amount",
+              "Type": {
+                "Name": "int"
+              }
+            }
+          ]
+        },
+        {
+          "Name": "SendForAccounting",
+          "DisplayName": "Send For Accounting",
+          "Description": "...",
+          "Parameters": []
+        }
+      ],
+      "States": [
+        {
+          "Name": "Initiate",
+          "DisplayName": "Initiate",
+          "Description": "...",
+          "PercentComplete": 25,
+          "Value": 0,
+          "Style": "Success",
+          "Transitions": [
+            {
+              "AllowedRoles": ["OperationScheduler"],
+              "AllowedInstanceRoles": [],
+              "Description": "...",
+              "Function": "NominateBardgeCompany",
+              "NextStates": [ "Nominate" ],
+              "DisplayName": "Nominate Barge Company"
+            }
+          ]
+        },
+		{
+          "Name": "Nominate",
+          "DisplayName": "Nominate",
+          "Description": "...",
+          "PercentComplete": 25,
+          "Value": 0,
+          "Style": "Success",
+          "Transitions": [
+            {
+              "AllowedRoles": ["BargeCompany"],
+              "AllowedInstanceRoles": [],
+              "Description": "...",
+              "Function": "LoadCompleted",
+              "NextStates": [ "Load" ],
+              "DisplayName": "Load Barge"
+            }
+          ]
+        },
+		{
+          "Name": "Load",
+          "DisplayName": "Load Barge",
+          "Description": "...",
+          "PercentComplete": 25,
+          "Value": 0,
+          "Style": "Success",
+          "Transitions": [
+            {
+              "AllowedRoles": ["Accounting"],
+              "AllowedInstanceRoles": [],
+              "Description": "...",
+              "Function": "SendForAccounting",
+              "NextStates": [ "Accounting" ],
+              "DisplayName": "Send For Accounting"
+            }
+          ]
+        },
+		{
+          "Name": "Accounting",
+          "DisplayName": "Completed",
+          "Description": "...",
+          "PercentComplete": 25,
+          "Value": 0,
+          "Style": "Success",
+          "Transitions": [{
+              "AllowedRoles": ["Accounting"],
+              "AllowedInstanceRoles": [],
+              "Description": "...",
+              "Function": "SendForAccounting",
+              "NextStates": [ "Close" ],
+              "DisplayName": "Close The Deal"
+            }]
+        },
+		{
+          "Name": "Close",
+          "DisplayName": "Close",
+          "Description": "...",
+          "PercentComplete": 25,
+          "Value": 0,
+          "Style": "Success",
+          "Transitions": []
+        }
+      ]
+    }
+  ]
+}
